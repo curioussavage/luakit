@@ -1,0 +1,26 @@
+   	{
+            "name":"lua file system",
+            "buildsystem": "simple",
+            "build-commands": [
+            ],
+    	    "sources": [
+	    	{
+    	            "type": "file",
+    	            "url": "https://github.com/keplerproject/luafilesystem/archive/1.7.zip"
+    	        }
+    	    ]
+    	},
+    	{
+            "name":"lua5.1",
+            "buildsystem": "simple",
+            "build-commands": [
+                "make local linux install"
+            ],
+    	    "sources": [
+	    	{
+    	            "type": "archive",
+    	            "url": "https://www.lua.org/ftp/lua-5.1.5.tar.gz",
+    	            "sha1": "b3882111ad02ecc6b972f8c1241647905cb2e3fc"
+    	        }
+    	    ]
+    	},

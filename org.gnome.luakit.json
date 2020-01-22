@@ -1,0 +1,76 @@
+{
+    "app-id": "org.gnome.luakit",
+    "runtime": "org.gnome.Platform",
+    "runtime-version": "3.28",
+    "sdk": "org.gnome.Sdk",
+    "command": "luakit",
+    "finish-args": [
+        "--share=network",
+        "--share=ipc",
+        "--socket=x11",
+        "--socket=wayland",
+        "--filesystem=xdg-run/dconf",
+        "--filesystem=~/.config/dconf:ro",
+        "--talk-name=ca.desrt.dconf",
+        "--env=DCONF_USER_CONFIG_DIR=.config/dconf"
+    ],
+    "build-options": {
+    },
+    "cleanup": [
+        "/include",
+        "/lib/pkgconfig",
+        "/man",
+        "/share/doc",
+        "/share/gtk-doc",
+        "/share/man",
+        "/share/pkgconfig",
+        "*.la",
+        "*.a"
+    ],
+    "modules": [
+        {
+            "name": "luajit",
+            "no-autogen": true,
+            "cleanup": [ "/lib/*.a", "/include" ],
+            "sources": [
+                {
+                "type": "archive",
+                "url": "http://luajit.org/download/LuaJIT-2.0.5.tar.gz",
+                "sha256": "874b1f8297c697821f561f9b73b57ffd419ed8f4278c82e05b48806d30c1e979"
+                },
+                {
+                "type": "shell",
+                "commands": [ "sed -i 's|/usr/local|/app|' ./Makefile" ]
+                }
+            ]
+        },
+        {
+            "name": "lfs",
+            "buildsystem": "simple",
+            "build-commands": [
+                "mkdir -p /app/lib/lua/5.1 && cp lfs.so /app/lib/lua/5.1/lfs.so"
+            ],
+            "sources": [
+                {
+                    "type": "file",
+                    "path": "lfs.so"
+                }
+            ]
+        },
+        {
+            "name": "luakit",
+            "builddir": true,
+            "buildsystem": "simple",
+            "build-commands": [
+                "make PREFIX=${FLATPAK_DEST} install"
+            ],
+            "sources": [
+                {
+                    "type": "archive",
+                    "url": "https://github.com/luakit/luakit/archive/2.1.tar.gz",
+                    "sha256": "ecbfa23316712f444714387b2ffd846626dab6e40b444d3def4475c145d56f26"
+                }
+            ]
+        }
+    ]
+}
